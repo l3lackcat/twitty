@@ -1,5 +1,5 @@
 <template>
-  <div class="panel panel-default">
+  <div class="panel panel-default center-block">
     <div class="panel-body">
       <div class="media">
         <div class="media-left media-top">
@@ -31,3 +31,8 @@ export default {
 }
 </script>
 
+<style scoped>
+.panel {
+  width: 400px;
+}
+</style>
