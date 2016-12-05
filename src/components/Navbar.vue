@@ -2,21 +2,28 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="#">Twitty</a>
+        <router-link class="navbar-brand" to="/">Twitty</router-link>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
+          <router-link tag="li" to="/signin" active-class="active" exact v-if="!currentUser">
+            <a>Sign In</a>
+          </router-link>
+          <li class="dropdown" v-else="currentUser">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              <img src="../assets/logo.png" alt="" height="24" width="24">
-              <span>{{ user.name }}</span>
+              <img src="../assets/logo.png" alt="" height="16" width="16">
+              <span>{{ currentUser.displayName }}</span>
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="#">Profile</a></li>
+              <router-link tag="li" to="/profile">
+                <a>Profile</a>
+              </router-link>
               <li role="separator" class="divider"></li>
-              <li><a href="#">Sign out</a></li>
+              <li>
+                <a href="javascript:;" @click="signOut">Sign out</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -26,12 +33,24 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
 export default {
   data () {
     return {
-      user: {
-        name: 'l3lackcat XIII'
-      }
+      currentUser: null
+    }
+  },
+  created () {
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
+      this.currentUser = user
+    })
+  },
+  methods: {
+    signOut () {
+      firebase.auth().signOut()
+      this.$router.replace('/')
     }
   }
 }
