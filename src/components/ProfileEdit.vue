@@ -2,13 +2,10 @@
   <div class="panel panel-default center-block">
     <div class="panel-body">
       <div class="panel-heading">
-        <h3>Profile</h3>
+        <h3>Edit Profile</h3>
       </div>
       <div class="panel-body">
-        <form class="form-horizontal">
-          <profile-detail :profile="profile"></profile-detail>
-          <router-link to="edit" append class="btn btn-success">Edit</router-link>
-        </form>
+        <profile-form v-model="profile" @save="save" @cancel="back"></profile-form>
       </div>
     </div>
   </div>
@@ -16,11 +13,11 @@
 
 <script>
 import { Me } from '../services'
-import ProfileDetail from './ProfileDetail'
+import ProfileForm from './ProfileForm'
 
 export default {
   components: {
-    ProfileDetail
+    ProfileForm
   },
   data () {
     return {
@@ -35,6 +32,17 @@ export default {
       .then((data) => {
         this.profile = data
       })
+  },
+  methods: {
+    save () {
+      Me.set(this.profile)
+        .then((data) => {
+          this.back()
+        })
+    },
+    back () {
+      this.$router.push('/profile')
+    }
   }
 }
 </script>

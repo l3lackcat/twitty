@@ -1,16 +1,29 @@
 <template>
-  <div>
-    <span>User {{ id }}</span><br>
-    <router-link :to="`/user/${id - 1}`">Prev</router-link>
-    <router-link :to="`/user/${id + 1}`">Next</router-link>
+  <div class="panel panel-default center-block">
+    <div class="panel-body">
+      <div class="panel-heading">
+        <h3>User profile</h3>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" v-if="data">
+          <profile-detail :profile="data"></profile-detail>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { User } from '../services'
+import ProfileDetail from './ProfileDetail'
+
 export default {
+  components: {
+    ProfileDetail
+  },
   data () {
     return {
-      id: 0
+      data: null
     }
   },
   created () {
@@ -21,7 +34,9 @@ export default {
   },
   methods: {
     reload () {
-      this.id = +this.$route.params.id
+      User.subscribe(this.$route.params.id, (data) => {
+        this.data = data
+      })
     }
   }
 }
