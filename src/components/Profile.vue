@@ -7,7 +7,12 @@
       <div class="panel-body">
         <form class="form-horizontal">
           <profile-detail :profile="profile"></profile-detail>
-          <router-link to="edit" append class="btn btn-success">Edit</router-link>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">&nbsp;</label>
+            <div class="col-sm-10">
+              <router-link to="edit" append class="btn btn-success">Edit</router-link>
+            </div>
+          </div>
         </form>
       </div>
     </div>
